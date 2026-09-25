@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ur" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tilawat Checker</title>
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- SCREEN 1: SPLASH / FIRST-TIME DOWNLOAD -->
+  <section id="screen-splash" class="screen active">
+    <div class="splash-mark">﷽</div>
+    <h1 class="app-title">Tilawat Checker</h1>
+    <p class="app-subtitle">Apni tilawat suniye, khud check kijiye</p>
+
+    <div class="splash-status">
+      <div class="progress-track">
+        <div id="progress-fill" class="progress-fill"></div>
+      </div>
+      <p id="splash-message">Shuru kiya ja raha hai&hellip;</p>
+    </div>
+
+    <button id="btn-retry" class="btn-primary hidden">Dobara koshish karein</button>
+  </section>
+
+  <!-- SCREEN 2: SURAH LIST -->
+  <section id="screen-list" class="screen">
+    <header class="list-header">
+      <h1>Suraho ki Fehrist</h1>
+      <p id="data-source-note" class="muted-note"></p>
+    </header>
+    <div class="search-bar">
+      <input id="surah-search" type="text" placeholder="Surah ka naam ya number likhein&hellip;" autocomplete="off">
+    </div>
+    <ul id="surah-list" class="surah-list"></ul>
+  </section>
+
+  <!-- SCREEN 3: RECITATION -->
+  <section id="screen-recite" class="screen">
+    <header class="recite-header">
+      <button id="btn-back" class="btn-icon" aria-label="Wapas jayein">&#8592;</button>
+      <div class="recite-header-text">
+        <h2 id="recite-surah-name">&nbsp;</h2>
+        <span id="recite-ayah-count" class="muted-note"></span>
+      </div>
+      <button id="btn-restart" class="btn-icon" aria-label="Surah dobara shuru karein">&#8635;</button>
+    </header>
+
+    <div id="ayah-display" class="ayah-display">
+      <p id="ayah-arabic" class="ayah-arabic" dir="rtl" lang="ar"></p>
+      <p id="ayah-position" class="muted-note"></p>
+    </div>
+
+    <div class="mic-panel">
+      <div id="mic-status" class="mic-status">Shuru karne ke liye mic dabayein</div>
+      <button id="btn-mic" class="btn-mic" aria-label="Recitation shuru/band karein">
+        <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor">
+          <path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v6a3 3 0 0 0 3 3z"/>
+          <path d="M19 11a1 1 0 0 0-2 0 5 5 0 0 1-10 0 1 1 0 0 0-2 0 7 7 0 0 0 6 6.92V20H8a1 1 0 1 0 0 2h8a1 1 0 1 0 0-2h-3v-2.08A7 7 0 0 0 19 11z"/>
+        </svg>
+      </button>
+      <div id="mistake-counter" class="mistake-counter">Galtiyan: <span id="mistake-count">0</span></div>
+    </div>
+
+    <div id="mic-permission-note" class="permission-note hidden">
+      Microphone ki ijazat zaroori hai. Browser settings mein permission allow karein aur page refresh karein.
+    </div>
+  </section>
+
+  <audio id="beep-audio" preload="auto"></audio>
+
+  <script src="js/quran-api.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

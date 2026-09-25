@@ -1,0 +1,65 @@
+name: Build APK
+
+# Har baar jab bhi "main" branch par push ho, ye workflow khud-ba-khud chalega
+# aur ek installable Android APK bana kar "Latest Build" release mein daal dega.
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: {}   # manual "Run workflow" button ke liye bhi available
+
+permissions:
+  contents: write   # Release banane/update karne ke liye zaroori
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repo checkout karein
+        uses: actions/checkout@v4
+
+      - name: Node.js setup karein
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Java (Android build ke liye) setup karein
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: NPM dependencies install karein
+        run: npm install
+
+      - name: Capacitor Android platform generate karein
+        run: npx cap add android
+
+      - name: Microphone permission AndroidManifest mein add karein
+        run: |
+          sed -i 's#<uses-permission android:name="android.permission.INTERNET" />#<uses-permission android:name="android.permission.INTERNET" />\n    <uses-permission android:name="android.permission.RECORD_AUDIO" />\n    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />#' android/app/src/main/AndroidManifest.xml
+          cat android/app/src/main/AndroidManifest.xml
+
+      - name: Web files ko Android project mein copy karein
+        run: npx cap copy android
+
+      - name: Gradle ko executable banayein
+        run: chmod +x android/gradlew
+
+      - name: APK build karein (debug version)
+        working-directory: android
+        run: ./gradlew assembleDebug --stacktrace
+
+      - name: APK ko is repo ke "Latest Build" Release mein daalein
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest-build
+          name: "Latest Build"
+          body: "Ye APK har naye push par khud-ba-khud (auto) bana hai. Neeche se .apk file download karke phone mein install karein (Unknown Sources ki permission deni pad sakti hai)."
+          make_latest: true
+          files: android/app/build/outputs/apk/debug/app-debug.apk
+
+      - name: APK ko workflow artifact ke taur par bhi save karein
+        uses: actions/upload-artifact@v4
+        with:
+          name: tilawat-checker-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk

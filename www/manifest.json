@@ -1,0 +1,10 @@
+{
+  "name": "Tilawat Checker",
+  "short_name": "Tilawat",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#1B4B43",
+  "theme_color": "#1B4B43",
+  "orientation": "portrait",
+  "icons": []
+}
