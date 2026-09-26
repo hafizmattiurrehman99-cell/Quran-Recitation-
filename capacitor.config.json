@@ -1,0 +1,8 @@
+{
+  "appId": "com.hafizmattiurrehman.tilawatchecker",
+  "appName": "Tilawat Checker",
+  "webDir": "www",
+  "android": {
+    "allowMixedContent": true
+  }
+}

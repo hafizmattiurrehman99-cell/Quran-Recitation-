@@ -1,0 +1,16 @@
+{
+  "name": "tilawat-checker",
+  "version": "1.0.0",
+  "description": "Tilawat Checker - Quran recitation matching app",
+  "scripts": {
+    "build": "echo 'Static site, no build step needed'"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/core": "^6.1.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.1.2",
+    "@capacitor/assets": "^3.0.5"
+  }
+}
